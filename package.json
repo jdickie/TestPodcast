@@ -1,0 +1,18 @@
+{
+  "name": "testpodcastdownloads",
+  "version": "1.0.0",
+  "description": "Simple scripts for downloading the same podcast episode over a long period of time. Being used to generate control logs in Akamai/Limelight and Triton.",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "gdickie",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^1.4.2",
+    "commander": "^2.8.1",
+    "moment": "^2.10.6",
+    "request": "^2.64.0",
+    "underscore": "^1.8.3"
+  }
+}
