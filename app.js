@@ -7,7 +7,7 @@ var request = require('request'),
     testDownloader = require('./lib/testDownloader.js'),
     settings = require('./lib/settings.js');
 
-//setInterval(function() {
+setInterval(function() {
     async.each(settings.urls, function(url, eachCallback) {
         try {
             if (settings.PODTRAC_ON) {
@@ -26,7 +26,7 @@ var request = require('request'),
             eachCallback();
         }
     });
-//}, 4320);
+}, 4320);
 
 
 
