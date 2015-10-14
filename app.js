@@ -11,7 +11,7 @@ var request = require('request'),
 
 setInterval(function() {
     callNum++;
-    console.log(moment().format() + " ");
+    console.log(moment().format() + " callNum=" + callNum);
     async.each(settings.urls, function(url, eachCallback) {
         try {
             if (settings.PODTRAC_ON) {
@@ -31,15 +31,14 @@ setInterval(function() {
             eachCallback();
         }
     });
-}, 4320);
+}, settings.INTERVAL_TIME);
 
 process.on('SIGINT', function() {
     console.log(moment().format(), {
        downloads : downloads,
         TotalCalls : callNum
-
     });
-    
+
     process.exit();
 });
 
