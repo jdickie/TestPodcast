@@ -6,18 +6,16 @@ var request = require('request'),
     testDownloader = require('./lib/testDownloader.js'),
     settings = require('./lib/settings.js'),
     process = require('process'),
+    hostname = require('os').hostname(),
     callNum = 0,
     downloads = 0;
 
 setInterval(function() {
     callNum++;
-    console.log(moment().format() + " callNum=" + callNum);
-    async.each(settings.urls, function(url, eachCallback) {
+    console.log(moment().format() + " callNum=" + callNum + " hostname=" + hostname);
+    async.each(settings.urls, function(obj, eachCallback) {
         try {
-            if (settings.PODTRAC_ON) {
-                url = settings.PODTRAC + url.replace(/^http:\/\//, '');
-            }
-            testDownloader.getBrowserBehaviour((url + settings.PATH), callNum, function(err, stats) {
+            testDownloader.getBrowserBehaviour(obj.url, callNum, function(err, stats) {
                 if (err) {
                     console.log(moment().format() + " Error:", err);
                 }
