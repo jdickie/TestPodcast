@@ -8,28 +8,35 @@ var request = require('request'),
     process = require('process'),
     hostname = require('os').hostname(),
     callNum = 0,
-    downloads = 0;
-
-setInterval(function() {
-    callNum++;
-    console.log(moment().format() + " callNum=" + callNum + " hostname=" + hostname);
-    async.each(settings.urls, function(obj, eachCallback) {
-        try {
-            testDownloader.getBrowserBehaviour(obj.url, callNum, function(err, stats) {
+    downloads = 0,
+    callServers = function (settingsObj) {
+        callNum++;
+        async.each(settingsObj.urls, function(obj, eachCallback) {
+            try {
+                testDownloader.getBrowserBehaviour(obj.url, callNum, function(err, stats) {
+                    if (err) {
+                        console.log(moment().format() + " Error:", err);
+                    }
+                    downloads++;
+                    eachCallback();
+                });
+            } catch (err) {
                 if (err) {
                     console.log(moment().format() + " Error:", err);
                 }
-                downloads++;
                 eachCallback();
-            });
-        } catch (err) {
-            if (err) {
-                console.log(moment().format() + " Error:", err);
             }
-            eachCallback();
-        }
-    });
-}, settings.INTERVAL_TIME);
+        });
+    };
+
+if (settings.REPEAT) {
+    setInterval(function() {
+        console.log(moment().format() + " callNum=" + callNum + " hostname=" + hostname);
+        callServers(settings);
+    }, settings.INTERVAL_TIME);
+} else {
+    callServers(settings);
+}
 
 process.on('SIGINT', function() {
     console.log(moment().format(), {
